@@ -72,14 +72,8 @@ namespace StringManipulation
 
         public int CountOccurrences(string input, char character)
         {
-            int count = 0;
-            foreach (char c in input)
-            {
-                if (c == character)
-                {
-                    count++;
-                }
-            }
+            input = input.ToLower();
+            int count = input.Where(a=> a == char.ToLower(character)).Count();
 
             _logger.LogInformation($"Number of concurrecies is:{count}");
             return count;
