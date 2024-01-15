@@ -19,6 +19,16 @@ namespace StringManipulationTest
             Assert.Equal("holi mundo", result);
         }
         [Fact]
+        public void ReverseString()
+        {
+            // Arrange
+            var strOperations = new StringOperations();
+            // Act
+            var result = strOperations.ReverseString("cat");
+            // Assert
+            Assert.Equal("tac",result);
+        }
+        [Fact]
         public void IsPalindrome_True()
         {
             // Arrange
@@ -73,6 +83,35 @@ namespace StringManipulationTest
     
             // Assert
             Assert.ThrowsAny<ArgumentNullException>(()=> strOperations.GetStringLength(null));
+        }
+
+        [Theory]
+        [InlineData("Hola mundo",4,"Hola")]
+        [InlineData("Ola",6,"Ola")]
+        [InlineData("",5,"")]
+        public void TruncateString(string input, int maxLength, string expected)
+        {
+            // Arrange
+            var strOperations = new StringOperations();
+            // Act
+            var result = strOperations.TruncateString(input,maxLength);
+            // Assert
+            Assert.Equal(expected, result);
+        }
+
+        [Theory]
+        [InlineData("Gato","Gatos")]
+        [InlineData("uva","uvas")]
+        public void Pluralize(string input, string expected)
+        {
+            // Arrange
+            var strOperations = new StringOperations();
+        
+            // Act
+            var result = strOperations.Pluralize(input);
+        
+            // Assert
+            Assert.Equal(expected, result);
         }
 
         [Fact]
