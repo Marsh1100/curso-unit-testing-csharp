@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using StringManipulation;
-
-
+using Microsoft.Extensions.Logging;
+using Moq;
 namespace StringManipulationTest
 {
     public class StringOperationTest
@@ -89,7 +89,6 @@ namespace StringManipulationTest
         [Theory]
         [InlineData("V",5)]
         [InlineData("DXXV",525)]
-
         public void FromRomanToNumber(string romanNumber, int expected)
         {
             // Arrange
@@ -101,5 +100,31 @@ namespace StringManipulationTest
             // Assert
             Assert.Equal(expected, result);
         }
+
+        [Fact]
+        public void CountOccurrences()
+        {
+            // Arrange
+            var mockLogger = new Mock<ILogger<StringOperations>>();
+            var strOperations = new StringOperations(mockLogger.Object);
+            // Act
+            var result = strOperations.CountOccurrences("Un osito de gomita",'o');
+            // Assert
+            Assert.Equal(3,result);
+        }
+        [Fact]
+        public void ReadFile()
+        {
+            // Arrange
+            var strOperations = new StringOperations();
+            var mockFileReader = new Mock<IFileReaderConector>();
+            mockFileReader.Setup(p=> p.ReadString(It.IsAny<string>())).Returns("Reading file");
+
+            // Act
+            var result = strOperations.ReadFile(mockFileReader.Object, "file.txt");
+            // Assert
+            Assert.Equal("Reading file",result);
+        }
+        
     }
 }
